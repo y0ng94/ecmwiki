@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecmwiki.mapper.TotalMapper">
+	<resultMap id="joinedTotalVO" type="TotalVO">
+		<id property="totalIdx" column="total_idx"/>
+		<id property="totalTitle" column="total_title"/>
+		<id property="userName" column="user_name"/>
+		<id property="menuId" column="menu_id"/>
+		<id property="targetMenu" column="target_menu"/>
+		<id property="menuName" column="menu_name"/>
+		<id property="targetMenuName" column="target_menu_name"/>
+		<id property="linkUrl" column="link_url"/>
+		<id property="registDate" column="regist_date"/>
+
+		<collection property="tagList" column="{total_idx = target_idx}" ofType="TagTargetVO">
+			<id property="tagName" column="tag_name"/>
+			<id property="tagMasterGroup" column="tag_master_group"/>
+			<id property="tagGroup" column="tag_group"/>
+			<id property="colorCode" column="color_code"/>
+		</collection>
+	</resultMap>
+
+	<select id="selectTotalSearch" parameterType="String" resultMap="joinedTotalVO">
+		select total.*, tag_name, tag_master_group, tag_group, color_code
+		from (
+				select board_idx as "total_idx", user_name, board.menu_id as "menu_id", target_menu, link_url, menu_name
+						, (select menu_name from ew_menu parent_menu where parent_menu.menu_id = menu.target_menu) as target_menu_name
+						, TO_CHAR(board.regist_date, 'YYYY-MM-DD HH24:MI:SS') as regist_date
+						, board_title as "total_title"
+				from ew_board board left outer join ew_menu menu on menu.menu_id = board.menu_id
+				union all
+				select site_idx as "total_idx", user_name, menu.menu_id as "menu_id", target_menu, link_url, menu_name
+						, (select menu_name from ew_menu parent_menu where parent_menu.menu_id = menu.target_menu) as target_menu_name
+						, TO_CHAR(status.regist_date, 'YYYY-MM-DD HH24:MI:SS') as regist_date
+						, site_title as "total_title"
+				from ew_site_status status left outer join ew_menu menu on menu.menu_id = 'siteStatus'
+			) total left outer join ew_tag_target ett on total.total_idx = ett.target_idx and tag_master_group = target_menu and tag_group = total.menu_id
+		where lower(total_title) like concat('%', lower(#{value}), '%') or tag_name like concat('%', #{value}, '%')
+	</select>
+</mapper>

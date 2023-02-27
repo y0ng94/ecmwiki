@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<div layout:fragment="content">
+
+    <link href="/vendors/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" type="text/css">
+    <script src="/vendors/bootstrap-table/bootstrap-table.min.js" crossorigin="anonymous"></script>
+    <script src="/vendors/bootstrap-table/bootstrap-table-locale-all.min.js" crossorigin="anonymous"></script>
+    <script src="/vendors/bootstrap-table/locale/bootstrap-table-ko-KR.min.js" crossorigin="anonymous"></script>
+
+    <link href="/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css">
+    <script src="/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js" crossorigin="anonymous"></script>
+    <script src="/vendors/bootstrap-datepicker/bootstrap-datepicker.ko.min.js" crossorigin="anonymous"></script>
+
+	<link href="/css/news/siteStatusWrite.css" rel="stylesheet" type="text/css">
+	<script src="/js/news/siteStatusWrite.js" crossorigin="anonymous"></script>
+
+	<div>
+		<div class="border-bottom mb-3">
+			<div class="row justify-content-between align-items-center py-3">
+				<div class="col col-auto">
+					<h3 class="menu-title" th:text="${menuName}"></h3>
+					<input type="hidden" class="menu-id" th:value="${menuId}"></input>
+					<input type="hidden" class="target-menu" th:value="${targetMenu}"></input>
+				</div>
+				<div class="col col-auto" sec:authorize="isAuthenticated()">
+					<div class="d-flex align-items-center">
+						<button type="button" class="btn btn-dark mx-1 insert-site-status">
+							<i class="fa-solid fa-check"></i>
+							등록
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<form class="mb-5" id="write-form" name="write-form" onsubmit="return false;">
+
+			<!-- ===============================================-->
+			<!--    1.Project-->
+			<!-- ===============================================-->
+			<div class="card mb-5" id="project">
+				<div class="card-body">
+					<div class="card-title d-flex justify-content-between align-items-center mb-1">
+						<div class="card-title-text">1. Project</div>
+						<div class="card-title-btn">
+							<button type="button" class="btn btn-dark reset-btn" id="project-reset-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="초기화">
+								<i class="fa fa-refresh" aria-hidden="true"></i>
+							</button>
+							<button type="button" class="btn btn-dark default-btn" id="project-default-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="디폴트 데이터">
+								<i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
+							</button>
+						</div>
+					</div>
+					<div class="card-subtitle mb-2 text-muted">프로젝트 수행 및 관리를 위한 간략한 정보를 기술한다.</div>
+					<hr>
+					<div class="row">
+						<div class="col-12 col-sm-6 mb-3">
+							<label for="site-name" class="fw-bold">사이트 명칭</label>
+							<input class="form-control" id="site-name" name="site-name" type="text" data-default="인젠트" />
+						</div>
+
+						<div class="col-12 col-sm-6 mb-3">
+							<label for="project-name" class="fw-bold">프로젝트 명</label>
+							<input class="form-control" id="project-name" name="project-name" type="text" data-default="ECM Wiki 구축 프로젝트" />
+						</div>
+
+						<div class="col-12 col-sm-12 mb-3">
+							<label for="project-location" class="fw-bold">프로젝트 수행 위치</label>
+							<input class="form-control" id="project-location" name="project-location" type="text" data-default="서울 영등포구 국제금융로2길 36 유화증권빌딩 8층" />
+						</div>
+
+						<div class="col-12 col-sm-12 mb-3">
+							<label for="project-engineer" class="fw-bold">프로젝트 수행인원/역할</label>
+							<input class="form-control" id="project-engineer" name="project-engineer" type="text" data-default="장재욱 매니저 / 엔지니어" />
+						</div>
+
+						<div class="col-12 col-sm-6 mb-3">
+							<label for="project-company" class="fw-bold">프로젝트 수행사</label>
+							<input class="form-control" id="project-company" name="project-company" type="text" data-default="(주)인젠트" />
+						</div>
+
+						<div class="col-12 col-sm-6 mb-3">
+							<label for="project-start-date" class="fw-bold">프로젝트 수행 기간</label>
+							<div class="input-group input-daterange">
+								<input type="text" class="form-control" id="project-start-date" name="project-start-date" placeholder="시작 날짜" readonly data-default="2023-01-01" />
+								<input type="text" class="form-control" id="project-end-date" name="project-end-date" placeholder="종료 날짜" readonly data-default="2023-01-01" />
+							</div>
+						</div>
+						
+						<div class="col-12 col-sm-6 mb-3">
+							<label for="project-license" class="fw-bold">라이선스 정책</label>
+							<select class="form-select" id="project-license" name="project-license" data-default="업무">
+								<option selected value=""></option>
+								<option value="업무">업무</option>
+								<option value="스토리지">스토리지</option>
+								<option value="사이트">사이트</option>
+								<option value="코어">코어</option>
+								<option value="해당 없음">해당 없음</option>
+							</select>
+						</div>
+
+						<div class="col-12 col-sm-6 mb-3">
+							<label for="project-access" class="fw-bold">오픈 후 접근위치</label>
+							<input class="form-control" id="project-access" name="project-access" type="text" data-default="서울 영등포구 국제금융로2길 36 유화증권빌딩 8층" />
+						</div>
+
+						<div class="col-12 col-sm-12 mb-3">
+							<label for="project-charge" class="fw-bold">프로젝트 담당자/연락처</label>
+							<input class="form-control" id="project-charge" name="project-charge" type="text" data-default="성기명 수석 / 010-5913-xxxx / xxx11@inzent.com" />
+						</div>
+
+						<div class="col-12 col-sm-12 mb-3">
+							<label for="project-customer" class="fw-bold">현업 담당자/연락처</label>
+							<input class="form-control" id="project-customer" name="project-customer" type="text" data-default="송필승 팀장 / 010-8270-xxxx / xxxxvox@inzent.com" />
+						</div>
+
+						<div class="col-12 col-sm-12 mb-3">
+							<label for="project-maintenence" class="fw-bold">유지보수 인계인원</label>
+							<input class="form-control" id="project-maintenence" name="project-maintenence" type="text" data-default="이영민 매니저 / 010-0000-0000 / xxxxxxx711@inzent.com" />
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- ===============================================-->
+			<!--    2. Architecture-->
+			<!-- ===============================================-->
+			<div class="card mb-5" id="architecture">
+				<div class="card-body">
+					<div class="card-title d-flex justify-content-between align-items-center mb-1">
+						<div class="card-title-text">2. Architecture</div>
+						<div class="card-title-btn">
+							<button type="button" class="btn btn-dark reset-btn" id="architecture-reset-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="초기화">
+								<i class="fa fa-refresh" aria-hidden="true"></i>
+							</button>
+							<button type="button" class="btn btn-dark default-btn" id="architecture-default-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="디폴트 데이터">
+								<i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
+							</button>
+						</div>
+					</div>
+					<div class="card-subtitle mb-2 text-muted">시스템 아키텍쳐의 구성 요소에 대해 기술한다.</div>
+					<hr>
+					<div class="row">
+						<div class="col-12 col-sm-12 mb-3">
+							<label for="architecture-role" class="fw-bold">투입 인원 R&R</label>
+							<input class="form-control" id="architecture-role" name="architecture-role" type="text" data-default="솔루션 설치 및 API 가이드" />
+						</div>
+
+						<div class="col-12 col-sm-12 mb-3">
+							<label for="architecture-client" class="fw-bold">Client 레이어</label>
+							<input class="form-control" id="architecture-client" name="architecture-client" type="text" data-default="미네르바 스캔 모듈" />
+						</div>
+
+						<div class="col-12 col-sm-12 mb-3">
+							<label for="architecture-front" class="fw-bold">Front 레이어</label>
+							<input class="form-control" id="architecture-front" name="architecture-front" type="text" data-default="제니스 HTML5 Viewer" />
+						</div>
+
+						<div class="col-12 col-sm-12 mb-3">
+							<label for="architecture-service" class="fw-bold">Service 레이어</label>
+							<input class="form-control" id="architecture-service" name="architecture-service" type="text" data-default="로시스 EDMS 시스템" />
+						</div>
+
+						<div class="col-12 col-sm-12 mb-3">
+							<label for="architecture-backend" class="fw-bold">Backend 레이어</label>
+							<input class="form-control" id="architecture-backend" name="architecture-backend" type="text" data-default="Xtorm V6" />
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- ===============================================-->
+			<!--    3. Engine-->
+			<!-- ===============================================-->
+			<div class="card mb-5" id="engine">
+				<div class="card-body">
+					<div class="card-title d-flex justify-content-between align-items-center mb-1">
+						<div class="card-title-text">3. Engine</div>
+						<div class="card-title-btn">
+							<button type="button" class="btn btn-dark reset-btn" id="project-reset-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="초기화">
+								<i class="fa fa-refresh" aria-hidden="true"></i>
+							</button>
+							<button type="button" class="btn btn-dark default-btn" id="project-default-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="디폴트 데이터">
+								<i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
+							</button>
+						</div>
+					</div>
+					<div class="card-subtitle mb-2 text-muted">Xtorm 엔진에 대한 정보를 기술한다.</div>
+					<hr>
+					<div class="row">
+						<div class="col-12 col-sm-6 mb-3">
+							<label for="engine-name" class="fw-bold">엔진 명</label>
+							<input class="form-control" id="engine-name" name="engine-name" type="text" data-default="Xtorm" />
+						</div>
+
+						<div class="col-12 col-sm-6 mb-3">
+							<label for="engine-version" class="fw-bold">엔진 버전</label>
+							<input class="form-control" id="engine-version" name="engine-version" type="text" data-default="Xtorm V6" />
+						</div>
+
+						<div class="col-12 col-sm-6 mb-3">
+							<label for="engine-jar" class="fw-bold">엔진 Jar</label>
+							<input class="form-control" id="engine-jar" name="engine-jar" type="text" data-default="xtorm_20201204_PROD.jar" />
+						</div>
+
+						<div class="col-12 col-sm-6 mb-3">
+							<label for="engine-api-jar" class="fw-bold">엔진 API Jar</label>
+							<input class="form-control" id="engine-api-jar" name="engine-api-jar" type="text" data-default="xtormapi_20210723.jar" />
+						</div>
+
+						<div class="col-12 col-sm-6 mb-3">
+							<label for="engine-gateway" class="fw-bold">게이트웨이</label>
+							<select class="form-select" id="engine-gateway" name="engine-gateway" data-default="XTORM_MAIN">
+								<option selected value=""></option>
+								<option value="XTORM_MAIN">XTORM_MAIN</option>
+								<option value="XVARM_MAIN">XVARM_MAIN</option>
+								<option value="XCARM_MAIN">XCARM_MAIN</option>
+								<option value="ALERO_MAIN">ALERO_MAIN</option>
+							</select>
+						</div>
+
+						<div class="col-12 col-sm-6 mb-3">
+							<label for="engine-composition" class="fw-bold">엔진 구성 방식</label>
+							<select class="form-select" id="engine-composition" name="engine-composition" data-default="Stand Alone">
+								<option selected value=""></option>
+								<option value="Stand Alone">Stand Alone</option>
+								<option value="Active Standby">Active Standby</option>
+								<option value="Active Active">Active Active</option>
+								<option value="Multiple Active Active">Multiple Active Active</option>
+							</select>
+						</div>
+
+						<div class="col-12 col-sm-12 mb-3">
+							<label for="engine-log-path" class="fw-bold">엔진 로그 경로</label>
+							<input class="form-control" id="engine-log-path" name="engine-log-path" type="text" data-default="/applog/xtorm/xtorm_2102.log" />
+						</div>
+
+						<div class="col-12 col-sm-6 mb-3">
+							<label for="engine-jdk" class="fw-bold">JDK 버전</label>
+							<input class="form-control" id="engine-jdk" name="engine-jdk" type="text" data-default="JDK 11.0.16.1" />
+						</div>
+
+						<div class="col-12 col-sm-6 mb-3">
+							<label for="engine-etc-jar" class="fw-bold">기타 Jar</label>
+							<input class="form-control" id="engine-etc-jar" name="engine-etc-jar" type="text" data-default="ojdbc8.jar" />
+						</div>
+
+						<div class="col-12 col-sm-12 mb-3 d-flex justify-content-between align-items-center">
+							<label for="engine-archive" class="fw-bold">아카이브 & 볼륨 구성</label>
+							<input class="form-control" id="engine-archive" name="engine-archive" type="hidden" data-default="" />
+
+							<div>
+								<button type="button" class="btn btn-dark me-1" id="archive-add-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="아카이브 & 볼륨 구성 Row 추가">
+									<i class="fa-solid fa-plus" aria-hidden="true"></i>
+								</button>
+								<button type="button" class="btn btn-dark" id="archive-remove-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="선택된 항목 삭제">
+									<i class="fa-solid fa-minus" aria-hidden="true"></i>
+								</button>
+							</div>
+						</div>
+
+						<div class="col-12 col-sm-12 mb-3 text-end">
+							<div class="card" id="engine-archive-card">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-6 col-sm-4 mb-3">
+											<div class="form-floating">
+												<input type="text" class="form-control" id="archive" placeholder="Archive(BaseDir)" data-default="MAIN_ARC(/)">
+												<label for="archive">Archive(BaseDir)</label>
+											</div>
+										</div>
+			
+										<div class="col-6 col-sm-4 mb-3">
+											<div class="form-floating">
+												<input type="text" class="form-control" id="volume" placeholder="Volume" data-default="MAIN_VOL">
+												<label for="volume">Volume</label>
+											</div>
+										</div>
+			
+										<div class="col-6 col-sm-2 mb-3 d-flex align-items-center">
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" value="" id="physical" checked>
+												<label class="form-check-label" for="physical">
+													Physical
+												</label>
+											</div>
+										</div>
+			
+										<div class="col-6 col-sm-2 mb-3 d-flex align-items-center">
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" value="" id="fileSystemKB" checked>
+												<label class="form-check-label" for="fileSystemKB">
+													FileSystemKB
+												</label>
+											</div>
+										</div>
+			
+										<div class="col-4 col-sm-4 mb-3">
+											<div class="form-floating">
+												<input type="number" class="form-control" id="maxSpace" placeholder="Max Space" data-default="10737418240">
+												<label for="maxSpace">Max Space</label>
+											</div>
+										</div>
+
+										<div class="col-4 col-sm-4 mb-3">
+											<div class="form-floating">
+												<input type="number" class="form-control" id="percent" placeholder="Percent" data-default="95">
+												<label for="percent">Percent</label>
+											</div>
+										</div>
+			
+										<div class="col-4 col-sm-4 mb-3">
+											<div class="form-floating">
+												<input type="number" class="form-control" id="usableSpace" placeholder="Usable Space" data-default="10200547328">
+												<label for="usableSpace">Usable Space</label>
+											</div>
+										</div>
+
+										<div class="col-12 col-sm-12 mb-3">
+											<div id="engine-archive-table-wrpper">
+												<div id="engine-archive-table"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-12 col-sm-12 mb-3 d-flex justify-content-between align-items-center">
+							<label for="engine-cc" class="fw-bold">라이프 사이클 구성</label>
+							<input class="form-control" id="engine-cc" name="engine-cc" type="hidden" data-default="" />
+							
+							<div>
+								<button type="button" class="btn btn-dark me-1" id="cc-add-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="라이프 사이클 구성 Row 추가">
+									<i class="fa-solid fa-plus" aria-hidden="true"></i>
+								</button>
+								<button type="button" class="btn btn-dark" id="cc-remove-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="선택된 항목 삭제">
+									<i class="fa-solid fa-minus" aria-hidden="true"></i>
+								</button>
+							</div>
+						</div>
+
+						<div class="col-12 col-sm-12 mb-3 text-end">
+							<div class="card" id="engine-cc-card">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-6 col-sm-4 mb-3">
+											<div class="form-floating">
+												<input type="text" class="form-control" id="contentClass" placeholder="Content Class" data-default="BASIC">
+												<label for="contentClass">Content Class</label>
+											</div>
+										</div>
+			
+										<div class="col-6 col-sm-4 mb-3">
+											<div class="form-floating">
+												<input type="text" class="form-control" id="contentState" placeholder="Content State" data-default="BASIC_INI">
+												<label for="contentState">Content State</label>
+											</div>
+										</div>
+			
+										<div class="col-8 col-sm-4 mb-3">
+											<div class="form-floating">
+												<input type="text" class="form-control" id="stateLocation" placeholder="StateLocation" data-default="MAIN_ARC">
+												<label for="stateLocation">StateLocation</label>
+											</div>
+										</div>
+
+										<div class="col-12 col-sm-12 mb-3">
+											<div id="engine-cc-table-wrpper">
+												<div id="engine-cc-table"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-12 col-sm-12 mb-3">
+							<label for="engine-filter" class="fw-bold">필터 정보</label>
+							<input class="form-control" id="engine-filter" name="engine-filter" type="text" data-default="드림 시큐리티 DAMO 모듈 / 김대식 이사 / 010-xxxx-xxxx / xxxx@dreamsecurity.com" />
+						</div>
+						
+						<div class="col-6 col-sm-6 mb-3">
+							<label for="engine-l4-address" class="fw-bold">L4 IP 주소 (Domain)</label>
+							<input class="form-control" id="engine-l4-address" name="engine-l4-address" type="text" data-default="127.0.0.1 (ecm.load-balancing.com)" />
+						</div>
+						
+						<div class="col-6 col-sm-6 mb-3">
+							<label for="engine-l4-port" class="fw-bold">L4 Port</label>
+							<input class="form-control" id="engine-l4-port" name="engine-l4-port" type="number" data-default="2102" />
+						</div>
+						
+						<div class="col-6 col-sm-6 mb-3">
+							<label for="engine-vip-address" class="fw-bold">VIP IP 주소 (Domain)</label>
+							<input class="form-control" id="engine-vip-address" name="engine-vip-address" type="text" data-default="127.0.0.1 (ecm.load-balancing.com)" />
+						</div>
+						
+						<div class="col-6 col-sm-6 mb-3">
+							<label for="engine-vip-port" class="fw-bold">VIP Port</label>
+							<input class="form-control" id="engine-vip-port" name="engine-vip-port" type="number" data-default="2102" />
+						</div>
+
+						<div class="col-12 col-sm-12 mb-3 d-flex justify-content-between align-items-center">
+							<label for="engine-info" class="fw-bold">엔진 정보</label>
+							<button type="button" class="btn btn-dark" id="engine-add-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="추가">
+								<i class="fa-solid fa-plus" aria-hidden="true"></i>
+							</button>
+						</div>
+
+						<div class="col-12 col-sm-12 mb-3 ">
+							<div class="card add-card engine-add-card">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-12 col-sm-12 mb-3 text-end">
+											<button type="button" class="btn btn-dark engine-remove-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="삭제">
+												<i class="fa-solid fa-minus" aria-hidden="true"></i>
+											</button>
+										</div>
+
+										<div class="col-12 col-sm-6 mb-3">
+											<label for="engine-category" class="fw-bold">엔진 구분</label>
+											<input class="form-control" name="engine-category" type="text" data-default="개발" />
+										</div>
+
+										<div class="col-12 col-sm-6 mb-3">
+											<label for="engine-port" class="fw-bold">엔진 Port</label>
+											<input class="form-control" name="engine-port" type="number" data-default="2102" />
+										</div>
+
+										<div class="col-12 col-sm-12 mb-3">
+											<label for="engine-access" class="fw-bold">접속 정보 (IP / Domain)</label>
+											<input class="form-control" name="engine-access" type="text" data-default="127.0.0.1 / ecm.domain.com" />
+										</div>
+
+										<div class="col-12 col-sm-12 mb-3">
+											<label for="engine-path" class="fw-bold">엔진 설치 경로</label>
+											<input class="form-control" name="engine-path" type="text" data-default="/app/xtorm" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- ===============================================-->
+			<!--    5. WEB & WAS-->
+			<!-- ===============================================-->
+			<div class="card mb-5" id="webwas">
+				<div class="card-body">
+					<div class="card-title d-flex justify-content-between align-items-center mb-1">
+						<div class="card-title-text">4. WEB & WAS</div>
+						<div class="card-title-btn">
+							<button type="button" class="btn btn-dark reset-btn" id="webwas-reset-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="초기화">
+								<i class="fa fa-refresh" aria-hidden="true"></i>
+							</button>
+							<button type="button" class="btn btn-dark default-btn" id="webwas-default-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="디폴트 데이터">
+								<i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
+							</button>
+						</div>
+					</div>
+					<div class="card-subtitle mb-2 text-muted">웹 관리자가 배포된 WEB 서버와 WAS 서버에 대한 정보를 기술한다.</div>
+					<hr>
+					<div class="row">
+						<div class="col-12 col-sm-12 mb-3 d-flex justify-content-between align-items-center">
+							<label for="webwas-info" class="fw-bold">WEB & WAS 정보</label>
+							<button type="button" class="btn btn-dark" id="webwas-add-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="추가">
+								<i class="fa-solid fa-plus" aria-hidden="true"></i>
+							</button>
+						</div>
+
+						<div class="col-12 col-sm-12 mb-3 ">
+							<div class="card add-card webwas-add-card">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-12 col-sm-12 mb-3 text-end">
+											<button type="button" class="btn btn-dark webwas-remove-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="삭제">
+												<i class="fa-solid fa-minus" aria-hidden="true"></i>
+											</button>
+										</div>
+
+										<div class="col-12 col-sm-6 mb-3">
+											<label for="webwas-category" class="fw-bold">서버 구분</label>
+											<input class="form-control" name="webwas-category" type="text" data-default="개발" />
+										</div>
+
+										<div class="col-12 col-sm-6 mb-3">
+											<label for="webwas-admin-version" class="fw-bold">웹 관리자 버전</label>
+											<select class="form-select" name="webwas-admin-version" data-default="구 웹 관리자">
+												<option selected value=""></option>
+												<option value="구 웹 관리자">구 웹 관리자</option>
+												<option value="신 웹 관리자">신 웹 관리자</option>
+											</select>
+										</div>
+
+										<div class="col-12 col-sm-12 mb-3">
+											<label for="webwas-access" class="fw-bold">접속 정보</label>
+											<input class="form-control" name="webwas-access" type="text" data-default="http://127.0.0.1:9102/xtorm/index.jsp" />
+										</div>
+
+										<div class="col-12 col-sm-6 mb-3">
+											<label for="webwas-web-server" class="fw-bold">WEB Server</label>
+											<input class="form-control" name="webwas-web-server" type="text" data-default="WebToB 5" />
+										</div>
+
+										<div class="col-12 col-sm-6 mb-3">
+											<label for="webwas-was-server" class="fw-bold">WAS Server</label>
+											<input class="form-control" name="webwas-was-server" type="text" data-default="Jeus 8.5" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- ===============================================-->
+			<!--    5. Database-->
+			<!-- ===============================================-->
+			<div class="card mb-5" id="db">
+				<div class="card-body">
+					<div class="card-title d-flex justify-content-between align-items-center mb-1">
+						<div class="card-title-text">5. Database</div>
+						<div class="card-title-btn">
+							<button type="button" class="btn btn-dark reset-btn" id="db-reset-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="초기화">
+								<i class="fa fa-refresh" aria-hidden="true"></i>
+							</button>
+							<button type="button" class="btn btn-dark default-btn" id="db-default-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="디폴트 데이터">
+								<i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
+							</button>
+						</div>
+					</div>
+					<div class="card-subtitle mb-2 text-muted">엔진과 연결된 Database의 정보를 기술한다.</div>
+					<hr>
+					<div class="row">
+						<div class="col-12 col-sm-12 mb-3 d-flex justify-content-between align-items-center">
+							<label for="db-info" class="fw-bold">DB 정보</label>
+							<button type="button" class="btn btn-dark" id="db-add-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="추가">
+								<i class="fa-solid fa-plus" aria-hidden="true"></i>
+							</button>
+						</div>
+
+						<div class="col-12 col-sm-12 mb-3 ">
+							<div class="card add-card db-add-card">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-12 col-sm-12 mb-3 text-end">
+											<button type="button" class="btn btn-dark db-remove-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="삭제">
+												<i class="fa-solid fa-minus" aria-hidden="true"></i>
+											</button>
+										</div>
+
+										<div class="col-12 col-sm-6 mb-3">
+											<label for="db-category" class="fw-bold">DB 서버 구분</label>
+											<input class="form-control" name="db-category" type="text" data-default="개발" />
+										</div>
+
+										<div class="col-12 col-sm-6 mb-3">
+											<label for="db-type" class="fw-bold">DB 종류</label>
+											<select class="form-select" name="db-type" data-default="Oracle">
+												<option selected value=""></option>
+												<option value="Oracle">Oracle</option>
+												<option value="MySQL">MySQL</option>
+												<option value="MariaDB">MariaDB</option>
+												<option value="Tibero">Tibero</option>
+												<option value="Postgersql">Postgersql</option>
+												<option value="MsSQL">MsSQL</option>
+												<option value="DB2">DB2</option>
+												<option value="Sybase">Sybase</option>
+												<option value="Altibase">Altibase</option>
+												<option value="Informix">Informix</option>
+												<option value="Etc">Etc</option>
+											</select>
+										</div>
+										
+										<div class="col-12 col-sm-6 mb-3">
+											<label for="db-version" class="fw-bold">DB 버전</label>
+											<input class="form-control" name="db-version" type="text" data-default="Oracle 19c" />
+										</div>
+										
+										<div class="col-12 col-sm-6 mb-3">
+											<label for="db-composition" class="fw-bold">엔진 구성 방식</label>
+											<select class="form-select" name="db-composition" data-default="Stand Alone">
+												<option selected value=""></option>
+												<option value="Stand Alone">Stand Alone</option>
+												<option value="Active Standby">Active Standby</option>
+												<option value="Active Active">Active Active</option>
+												<option value="Multiple Active Active">Multiple Active Active</option>
+											</select>
+										</div>
+										
+										<div class="col-12 col-sm-12 mb-3">
+											<label for="db-address" class="fw-bold">DB 주소 (Domain)</label>
+											<input class="form-control" name="db-address" type="text" data-default="127.0.0.1" />
+										</div>
+										
+										<div class="col-12 col-sm-6 mb-3">
+											<label for="db-user" class="fw-bold">DB User 및 권한</label>
+											<input class="form-control" name="db-user" type="text" data-default="XTORM (Select, Delete, Update 권한)" />
+										</div>
+										
+										<div class="col-12 col-sm-6 mb-3">
+											<label for="db-pw" class="fw-bold">DB 패스워드 및 암호화 여부</label>
+											<input class="form-control" name="db-pw" type="text" data-default="XTORM (Xtorm 자체 암호화 적용)" />
+										</div>
+										
+										<div class="col-12 col-sm-6 mb-3">
+											<label for="db-name" class="fw-bold">DB SID or Service name or Database 명</label>
+											<input class="form-control" name="db-name" type="text" data-default="XTORM" />
+										</div>
+										
+										<div class="col-12 col-sm-6 mb-3">
+											<label for="db-port" class="fw-bold">DB Port</label>
+											<input class="form-control" name="db-port" type="text" data-default="1521" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- ===============================================-->
+			<!--    6. Server-->
+			<!-- ===============================================-->
+			<div class="card mb-5" id="server">
+				<div class="card-body">
+					<div class="card-title d-flex justify-content-between align-items-center mb-1">
+						<div class="card-title-text">6. Server</div>
+						<div class="card-title-btn">
+							<button type="button" class="btn btn-dark reset-btn" id="server-reset-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="초기화">
+								<i class="fa fa-refresh" aria-hidden="true"></i>
+							</button>
+							<button type="button" class="btn btn-dark default-btn" id="server-default-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="디폴트 데이터">
+								<i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
+							</button>
+						</div>
+					</div>
+					<div class="card-subtitle mb-2 text-muted">엔진이 설치된 Server의 정보를 기술한다.</div>
+					<hr>
+					<div class="row">
+						<div class="col-12 col-sm-6 mb-3">
+							<label for="server-os" class="fw-bold">Server OS</label>
+							<input class="form-control" id="server-os" name="server-os" type="text" data-default="AIX 7.2" />
+						</div>
+										
+						<div class="col-12 col-sm-6 mb-3">
+							<label for="server-composition" class="fw-bold">서버 구성 방식</label>
+							<select class="form-select" id="server-composition" name="server-composition" data-default="Stand Alone">
+								<option selected value=""></option>
+								<option value="Stand Alone">Stand Alone</option>
+								<option value="Active Standby">Active Standby</option>
+								<option value="Active Active">Active Active</option>
+								<option value="Multiple Active Active">Multiple Active Active</option>
+							</select>
+						</div>
+
+						<div class="col-12 col-sm-6 mb-3">
+							<label for="server-core" class="fw-bold">CPU Core</label>
+							<input class="form-control" id="server-core" name="server-core" type="text" data-default="4 Core" />
+						</div>
+
+						<div class="col-12 col-sm-6 mb-3">
+							<label for="server-memory" class="fw-bold">Memory</label>
+							<input class="form-control" id="server-memory" name="server-memory" type="text" data-default="16 GB" />
+						</div>
+
+						<div class="col-12 col-sm-6 mb-3">
+							<label for="server-jdk" class="fw-bold">JDK 버전</label>
+							<input class="form-control" id="server-jdk" name="server-jdk" type="text" data-default="JDK 11.0.16.1" />
+						</div>
+
+						<div class="col-12 col-sm-6 mb-3">
+							<label for="server-account" class="fw-bold">계정</label>
+							<input class="form-control" id="server-account" name="server-account" type="text" data-default="xtorm" />
+						</div>
+
+						<div class="col-12 col-sm-12 mb-3">
+							<label for="server-ulimit-ha" class="fw-bold">ulimit -Ha</label>
+							<textarea class="form-control" id="server-ulimit-ha" name="server-ulimit-ha" data-default="core file size          (blocks, -c) unlimited\ndata seg size           (kbytes, -d) unlimited\nscheduling priority             (-e) 0\nfile size               (blocks, -f) unlimited\npending signals                 (-i) 7154\nmax locked memory       (kbytes, -l) 64\nmax memory size         (kbytes, -m) unlimited\nopen files                      (-n) 4096\npipe size            (512 bytes, -p) 8\nPOSIX message queues     (bytes, -q) 819200\nreal-time priority              (-r) 0\nstack size              (kbytes, -s) unlimited\ncpu time               (seconds, -t) unlimited\nmax user processes              (-u) 7154\nvirtual memory          (kbytes, -v) unlimited\nfile locks                      (-x) unlimited"></textarea>
+						</div>
+
+						<div class="col-12 col-sm-12 mb-3">
+							<label for="server-ulimit-sa" class="fw-bold">ulimit -Sa</label>
+							<textarea class="form-control" id="server-ulimit-sa" name="server-ulimit-sa" data-default="core file size          (blocks, -c) 0\ndata seg size           (kbytes, -d) unlimited\nscheduling priority             (-e) 0\nfile size               (blocks, -f) unlimited\npending signals                 (-i) 7154\nmax locked memory       (kbytes, -l) 64\nmax memory size         (kbytes, -m) unlimited\nopen files                      (-n) 1024\npipe size            (512 bytes, -p) 8\nPOSIX message queues     (bytes, -q) 819200\nreal-time priority              (-r) 0\nstack size              (kbytes, -s) 8192\ncpu time               (seconds, -t) unlimited\nmax user processes              (-u) 4096\nvirtual memory          (kbytes, -v) unlimited\nfile locks                      (-x) unlimited"></textarea>
+						</div>
+					</div>
+				</div>
+			</div> 
+
+
+			<!-- ===============================================-->
+			<!--    7. Issue-->
+			<!-- ===============================================-->
+			<div class="card mb-5" id="issue">
+				<div class="card-body">
+					<div class="card-title d-flex justify-content-between align-items-center mb-1">
+						<div class="card-title-text">7. Issue</div>
+						<div class="card-title-btn">
+							<button type="button" class="btn btn-dark default-btn" id="server-reset-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="초기화">
+								<i class="fa fa-refresh" aria-hidden="true"></i>
+							</button>
+						</div>
+					</div>
+					<div class="card-subtitle mb-2 text-muted">프로젝트 중 발생한 이슈 및 참고 사항을 기술한다.</div>
+					<hr>
+					<div class="row">
+						<div class="col-12 col-sm-12 mb-3">
+							<label for="issue-content" class="fw-bold">내용</label>
+							<textarea class="form-control" id="issue-content" name="issue-content"></textarea>
+						</div>
+					</div>
+				</div>
+			</div> 
+		</form>
+
+
+		<!-- ===============================================-->
+		<!--    8. Tag-->
+		<!-- ===============================================-->
+		<div class="card mb-5" id="tag">
+			<div class="card-body">
+				<div class="card-title d-flex justify-content-between align-items-center mb-1">
+					<div class="card-title-text">8. Tag</div>
+					<div class="card-title-btn">
+						<button type="button" class="btn btn-dark reset-btn" id="tag-reset-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="초기화">
+							<i class="fa fa-refresh" aria-hidden="true"></i>
+						</button>
+					</div>
+				</div>
+				<div class="card-subtitle mb-2 text-muted">프로젝트에 관련된 태그를 삽입한다.</div>
+				<hr>
+				<div class="row">
+					<div class="col-12 col-sm-12 mb-3">
+						<label class="form-label">태그 추가</label>
+						<input class="form-control" id="tagList" name="tagList" type="hidden" data-default="" />
+						<div class="select-box-area">
+							<div class="select-box form-control form-control-lg">태그를 선택해주세요 (최대 5개)</div>
+							<div class="select-box-dropDown" id="add-tag"><ul></ul></div>
+						</div>
+					</div>
+					<div class="col-12 col-sm-12 mb-3">
+						<form id="tag-form" name="tag-form" onsubmit="return false;">
+							<div class="card" id="tag-card">
+								<div class="card-body">
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- ===============================================-->
+		<!--    Site Remote Controller-->
+		<!-- ===============================================-->
+		<div class="site-remote">
+			<div class="card mb-5" id="remote-controller">
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item"><a href="#project">프로젝트 정보 바로가기</a></li>
+					<li class="list-group-item"><a href="#architecture">아키텍쳐 바로가기</a></li>
+					<li class="list-group-item"><a href="#engine">엔진 정보 바로가기</a></li>
+					<li class="list-group-item"><a href="#webwas">WEB & WAS 정보 바로가기</a></li>
+					<li class="list-group-item"><a href="#db">DB 정보 바로가기</a></li>
+					<li class="list-group-item"><a href="#server">서버 정보 바로가기</a></li>
+					<li class="list-group-item"><a href="#issue">이슈 정보 바로가기</a></li>
+					<li class="list-group-item"><a href="#tag">태그 바로가기</a></li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- ===============================================-->
+		<!--    Site Remote Controller Show Button-->
+		<!-- ===============================================-->
+		<div class="site-remote-btn-wrapper">
+			<button type="button" id="site-remote-btn">
+				<i class="fa-sharp fa-solid fa-arrow-up"></i>
+			</button>
+		</div>
+
+		<div class="mb-3" sec:authorize="isAuthenticated()">
+            <div class="row justify-content-end align-items-center">
+                <div class="col col-auto">
+					<button type="button" class="btn btn-dark mx-1 insert-site-status">
+						<i class="fa-solid fa-check"></i>
+						등록
+					</button>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<div layout:fragment="content">
+
+    <link href="/vendors/summernote/summernote-lite.min.css" rel="stylesheet" type="text/css">
+    <script crossorigin="anonymous" src="/vendors/summernote/summernote-lite.min.js"></script>
+    <script crossorigin="anonymous" src="/vendors/summernote/lang/summernote-ko-KR.min.js"></script>
+
+    <link href="/css/board/write.css" rel="stylesheet" type="text/css">
+    <script crossorigin="anonymous" src="/js/board/write.js"></script>
+
+    <script>
+        const menuId = "[[${menu.menuId}]]";
+        const targetMenuId = "[[${menu.targetMenu}]]";
+    </script>
+
+    <div>
+        <div class="border-bottom mb-3">
+            <h3 class="fw-bold fs-2" th:text="${menu.menuName}"></h3>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <form class="row mb-6" id="write-form">
+                    <div class="col-12 col-sm-9 mb-3">
+                        <div class="form-floating">
+                            <input class="form-control" id="board-title" placeholder="제목" type="text"/>
+                            <label for="board-title">제목</label>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-3 mb-3">
+                        <div class="form-floating">
+                            <select class="form-select" id="board-status"></select>
+                            <label for="board-status">게시글 구분</label>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-12 mb-3">
+                        <textarea class="form-control" id="board-content"></textarea>
+                    </div>
+
+                    <div class="col-12 col-sm-12 mb-1">
+                        <div class="d-none mb-3" id="tag-area"></div>
+                    </div>
+
+                    <div class="row d-flex pe-0">
+                        <div class="col-4 col-sm-4 mb-3">
+                            <label class="form-label" for="tag-input">기존 태그 추가</label>
+                            <div class="select-box-area">
+                                <div class="select-box form-control form-control-lg text-truncate">태그를 선택해주세요 (최대 10개)</div>
+                                <div class="select-box-dropDown">
+                                    <ul></ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-8 col-sm-8 mb-3 pe-0">
+                            <label class="form-label" for="tag-input">신규 태그 추가</label>
+                            <div class="d-flex">
+                                <input class="form-control custom-color-picker" id="tag-color" type="color" value="#563d7c">
+                                <div class="input-group">
+                                    <input class="form-control" id="tag-input" placeholder="#신규 태그는 게시글 등록 시 저장됩니다" type="text">
+                                    <button class="btn btn-outline-secondary" id="tag-create" type="button">추가</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-12 mb-3">
+                        <label class="form-label" for="file">파일 첨부 (파일 선택) </label>
+                        <input class="form-control" id="file" multiple name="file" type="file">
+                        <div></div>
+                    </div>
+
+                    <div class="col-12 col-sm-12 mb-3">
+                        <div id="file-list-area">
+                            <label class="form-label" for="file-list">파일 첨부 (드래그 앤 드롭)</label>
+                            <div id="file-list" style="min-height:150px;"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="border-top mt-3 pt-3" sec:authorize="isAuthenticated()">
+            <div class="row justify-content-end">
+                <div class="col col-auto">
+                    <button class="btn btn-dark" id="insert-temp-board">게시글 임시저장</button>
+                    <button class="btn btn-dark" id="insert-board">게시글 등록</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout-head}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<div layout:fragment="content">
+
+    <script src="/js/sign/signup.js"></script>
+
+    <div class="row flex-center justify-content-center align-items-center min-vh-100 py-5">
+        <div class="col-sm-10 col-md-8 col-lg-5 col-xl-5 col-xxl-3">
+            <a class="d-flex flex-center justify-content-center text-decoration-none mb-4" href="/">
+                <div class="d-flex justify-content-center align-items-center fw-bolder fs-5 d-inline-block">
+                    <img alt="logo" src="img/logo.png" width="58"/>
+                </div>
+            </a>
+
+            <div class="text-center mb-7">
+                <h3 class="text-1000">회원가입</h3>
+            </div>
+
+            <form th:action="@{/register}" th:object="${signVO}" method="post">
+
+                <div class="mb-3 text-start">
+                    <label class="form-label" for="userId">이메일</label>
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
+                        <input class="form-control" id="userId" name="userId" placeholder="example@inzent.com" type="email" th:field="*{userId}" />
+                    </div>
+                    <div class="alert alert-danger mt-2" role="alert" th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}">Incorrect data</div>
+                </div>
+
+                <div class="mb-3 text-start">
+                    <label class="form-label" for="userPw">비밀번호</label>
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        <input class="form-control form-icon-input" id="userPw" name="userPw" placeholder="비밀번호 (8~20자 영문자, 숫자, 특수문자 조합)" type="password" th:field="*{userPw}"/>
+                    </div>
+                    <div class="alert alert-danger mt-2" role="alert" th:if="${#fields.hasErrors('userPw')}" th:errors="*{userPw}">Incorrect data</div>
+                </div>
+
+                <div class="mb-3 text-start">
+                    <label class="form-label" for="userPwValid">비밀번호 확인</label>
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        <input class="form-control form-icon-input" id="userPwValid" name="userPwValid" placeholder="비밀번호 재입력" type="password"/>
+                    </div>
+                    <div class="alert alert-danger mt-2" role="alert" id="passwordMatchedAlert">비밀번호가 일치하지 않습니다.</div>
+                </div>
+
+                <div class="mb-3 text-start">
+                    <label class="form-label" for="company">이름</label>
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                        <input class="form-control form-icon-input" id="userName" name="userName" placeholder="이름" type="text" th:field="*{userName}"/>
+                    </div>
+                    <div class="alert alert-danger mt-2" role="alert" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">Incorrect data</div>
+                </div>
+
+                <div class="mb-3 text-start">
+                    <label class="form-label" for="phoneNumber">전화 번호 ('-' 제외 입력)</label>
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text"><i class="fa-solid fa-phone"></i></span>
+                        <input class="form-control form-icon-input" id="phoneNumber" name="phoneNumber" placeholder="01012345678" type="tel" th:field="*{phoneNumber}" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
+                    </div>
+                    <div class="alert alert-danger mt-2" role="alert" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">Incorrect data</div>
+                </div>
+
+                <div class="mb-3 text-start">
+                    <label class="form-label" for="company">회사</label>
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text"><i class="fa-solid fa-building"></i></span>
+                        <input class="form-control form-icon-input" id="company" name="company" placeholder="인젠트" type="text" th:field="*{company}"/>
+                    </div>
+                    <div class="alert alert-danger mt-2" role="alert" th:if="${#fields.hasErrors('company')}" th:errors="*{company}">Incorrect data</div>
+                </div>
+
+                <div class="alert alert-danger mt-2" role="alert" th:if="${errorMessage != null}" th:text="${errorMessage}"></div>
+
+                <button class="btn btn-primary w-100 my-3" id="btnRegister" type="submit">회원가입</button>
+            </form>
+
+            <div class="text-center"><a class="fs--1 fw-bold" href="/signin">로그인</a></div>
+
+        </div>
+    </div>
+</div>
+
+</html>

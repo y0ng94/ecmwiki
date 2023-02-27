@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout-head}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<div layout:fragment="content">
+    <div class="row flex-center justify-content-center align-items-center min-vh-100 py-5">
+        <div class="col-sm-10 col-md-8 col-lg-5 col-xl-5 col-xxl-3">
+            <a class="d-flex flex-center justify-content-center text-decoration-none mb-4" href="/">
+                <div class="d-flex justify-content-center align-items-center fw-bolder fs-5 d-inline-block">
+                    <img alt="logo" src="img/logo.png" width="58"/>
+                </div>
+            </a>
+
+            <div class="text-center mb-7">
+                <h3 class="text-1000">로그인</h3>
+            </div>
+
+            <form th:action="@{/login}" method="post">
+
+                <div class="mb-3 text-start">
+                    <label class="form-label" for="userId">이메일</label>
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
+                        <input class="form-control" id="userId" name="userId" placeholder="example@inzent.com" type="email"/>
+                    </div>
+                </div>
+
+                <div class="mb-3 text-start">
+                    <label class="form-label" for="userPw">비밀번호</label>
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        <input class="form-control" id="userPw" name="userPw" placeholder="비밀번호" type="password"/>
+                    </div>
+                </div>
+
+                <div class="row flex-between-center mb-3">
+                    <div class="col-auto">
+                        <div class="form-check mb-0">
+                            <input checked="checked" class="form-check-input" id="remember-me" name="remember-me" type="checkbox"/>
+                            <label class="form-check-label mb-0" for="remember-me">자동 로그인</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div th:if="${alert}" th:text="${alertMessage}" class="alert alert-soft-success" role="alert"></div>
+                <div th:if="${error}" th:text="${errorMessage}" class="alert alert-soft-danger" role="alert"></div>
+
+                <button type="submit" class="btn btn-primary w-100 my-3">로그인</button>
+            </form>
+
+            <div class="text-center"><a class="fs--1 fw-bold" href="/signup">회원가입</a></div>
+
+        </div>
+    </div>
+</div>
+
+</html>

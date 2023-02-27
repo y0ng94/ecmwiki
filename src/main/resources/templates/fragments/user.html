@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="userFragment">
+	<script th:inline="javascript" sec:authorize="isAuthenticated()">
+			$(function() {
+				const userPicture = '[[${#authentication.principal.userPicture}]]';
+
+				if (userPicture == null || userPicture == undefined)
+					$('.user-profile').attr('src', '/img/nopicture.png');
+				else
+					$('.user-profile').attr('src', ('/file/download/' + (userPicture.replace(/"/g, ''))));
+			});
+	</script>
+	<link href="/css/fragments/user.css" type="text/css" rel="stylesheet" id="style-user">
+
+	<div class="card-container">
+		<div class="card-wrapper d-flex justify-content-center align-items-center flex-column">
+			<div class="card">
+				<div class="card-body">
+					<div sec:authorize="isAuthenticated()" id="user-info">
+						<div class="text-center pt-2 pb-3">
+							<div class="avatar avatar-xl">
+								<img class="rounded-circle user-picture user-profile" src="/img/nopicture.png" alt="">
+							</div>
+						</div>
+						<h6 class="mt-2 text-center">
+							<div sec:authentication="principal.username" id="user-name" class="d-inline"></div>
+							<div sec:authorize="hasAuthority('ADMIN')" id="user-auth" class="d-inline">(관리자)</div>
+							<div class="d-flex justify-content-center">(<div sec:authentication="principal.userId" id="user-id"></div>)</div>
+							<hr>
+							<div id="last-access-date">
+								<span>마지막 접속 날짜&nbsp;:&nbsp;</span>
+								<div sec:authentication="principal.lastAccessDate"></div>
+							</div>
+							<hr>
+							<div id="personal-menu">
+								<a href="/mypage">마이페이지</a>
+								<a href="/admin">관리자페이지</a>
+							</div>
+							<hr>
+							<button type="button" id="logout" class="btn me-1" onclick="location.href='/logout'">로그아웃</button>
+						</h6>
+					</div>
+					<div sec:authorize="!isAuthenticated()" id="login-wrapper">
+						<img class="logo" src="/img/logo.png" alt="">
+						<button sec:authorize="!isAuthenticated()" type="button" id="login" class="btn btn-success me-1" onclick="location.href='/signin'">로그인</button>
+					</div>
+				</div>
+			</div>
+			<div class="card" id="bookmark">
+				<div class="card-body">
+					<a href="/board/notice">공지사항</a>
+					<a href="/board/question">문의사항</a>
+					<a href="/board/update">업데이트 노트</a>
+					<a href="/board/free">자유 게시판</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+</html>

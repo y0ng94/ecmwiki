@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecmwiki.mapper.FileMapper">
+    <insert id="insertFile" parameterType="FileVO">
+        insert into ew_file (target_type, file_type, elementid, org_file_name, org_file_ext, org_file_size, user_id)
+        values (#{targetType}, #{fileType}, #{elementId}, #{orgFileName}, #{orgFileExt}, #{orgFileSize}, #{userId})
+    </insert>
+
+    <select id="selectFile" parameterType="FileVO" resultType="FileVO">
+        select file_type, elementid, org_file_name, org_file_ext, org_file_size, user_id, regist_date
+        from ew_file
+        where target_idx = #{targetIdx}
+        and target_type = #{targetType}
+        and file_type = #{fileType}
+    </select>
+
+    <select id="selectFileName" parameterType="string" resultType="string">
+        select org_file_name as orgFileName
+        from ew_file
+        where elementid = #{elementId}
+    </select>
+
+    <update id="updateFileByElementId" parameterType="FileVO">
+        update ew_file
+        set target_idx = #{targetIdx}
+        where elementid = #{elementId}
+    </update>
+
+    <delete id="deleteFileByIdx" parameterType="int">
+        delete from ew_file
+        where target_idx = #{targetIdx}
+    </delete>
+
+    <delete id="deleteFileByElementId" parameterType="string">
+        delete from ew_file
+        where elementid = #{elementId}
+    </delete>
+</mapper>

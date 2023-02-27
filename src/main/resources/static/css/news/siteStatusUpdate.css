@@ -1,0 +1,308 @@
+
+/** ==================================================
+	Title
+===================================================**/
+.menu-title {
+	font-weight: bolder;
+}
+
+/** ==================================================
+	Common
+===================================================**/
+.btn {
+	border: 2px solid #494ca2;
+	border-radius: 5px;
+	background: #494ca2;
+    color: #FFFFFF;
+    font-weight: bold;
+	font-size: 14px;
+	padding: 7px 15px;
+}
+
+.btn:hover {
+	color: #494ca2;
+	background: #FFFFFF;
+}
+
+input.inputted, select.inputted, textarea.inputted, #engine-archive-card.inputted, #engine-cc-card.inputted, #tag-card.inputted {
+	border: 1px solid #6495ED;
+	background: #F0F8FF;
+}
+
+input.changed, select.changed, textarea.changed, #engine-archive-card.changed, #engine-cc-card.changed, #tag-card.changed {
+	border: 1px solid #64ed7b;
+	background: #f0fff7;
+}
+
+select {
+	font-size: 13px !important;
+}
+
+textarea {
+	min-height: 300px !important;
+}
+
+/** ==================================================
+	Common Card
+===================================================**/
+.card .card-title {
+	font-size: 20px;
+	font-weight: bolder;
+}
+
+/** ==================================================
+	 site-remote
+===================================================**/
+.site-remote {
+	position: fixed;
+    bottom: 30px;
+    left: 36px;
+    transition: .3s;
+}
+
+.site-remote li {
+	cursor: pointer;
+	padding: 0px;
+}
+
+.site-remote li:hover {
+	background-color: #000000;
+}
+
+.site-remote a {
+	display: block;
+	text-decoration: none;
+	color: #000000;
+	padding: var(--bs-list-group-item-padding-y) var(--bs-list-group-item-padding-x);
+}
+
+.site-remote a.here {
+	color: #FFC42C;
+	font-weight: bold;
+}
+
+.site-remote li:hover a {
+	color: #FFFFFF;
+}
+
+.site-remote-btn-wrapper {
+	visibility: hidden;
+	position: fixed;
+	bottom: 15px;
+	left: 36px;
+	width: 40px;
+	height: 40px;
+}
+
+#site-remote-btn {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	border: 1px solid #000000;
+	background: #FFFFFF;
+    color: #000000;
+    font-weight: bold;
+	font-size: 14px;
+}
+
+#site-remote-btn:hover {
+	border: 1px solid #FFC42C;
+    color: #FFC42C;
+}
+
+@media (max-width: 1279px) {
+    .site-remote {
+		bottom: -380px;
+	}
+
+	.site-remote.show {
+		bottom: 30px;
+	}
+
+	.site-remote-btn-wrapper {
+		visibility: initial;
+	}
+}
+
+#tag #tag-card {
+	min-height: 100px;
+}
+
+/** ==================================================
+	Select Box
+===================================================**/
+ul {
+    list-style: none;
+}
+
+ul,
+li {
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.label {
+    margin-bottom: 5px;
+    padding: 0;
+    font-size: .75rem;
+    font-weight: 500;
+}
+
+.select-box-area {
+    position: relative;
+}
+
+.select-box {
+    cursor: pointer;
+    border: 1px solid #ced4da;
+    width: 100%;
+    position: relative;
+    height: 30px;
+    align-content: center;
+    align-items: center;
+}
+
+.select-box::after {
+    content: "\f107";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 10px;
+}
+
+.select-box.open::after {
+    content: "\f00d";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 10px;
+}
+
+.select-box-dropDown {
+    background-color: #fff;
+    box-shadow: 0 0 2px 0 var(--rcx-color-neutral-800-8, rgba(47, 52, 61, .08)), 0 0 12px 0 var(--rcx-color-neutral-800-12, rgba(47, 52, 61, .12));
+    display: none;
+    position: absolute;
+    width: 100%;
+    max-height: 10rem;
+    z-index: 9999;
+    overflow-y: scroll;
+}
+
+.select-box-dropDown li::last-child {
+    padding-bottom: 0;
+}
+
+.select-box-dropDown li a {
+    color: #333;
+    display: block;
+    padding: 4px 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.select-box-dropDown li a:hover {
+    background: #f7f8fa;
+}
+
+.select-box-dropDown li a:focus,
+.select-box-dropDown li a.selected {
+    background: #cbced1;
+}
+
+/** ==================================================
+	DatePicker
+===================================================**/
+.datepicker {
+	background-color: #fff;
+	border: none;
+	border-radius: 0 !important;
+}
+
+.datepicker-dropdown {
+	top: 0;
+	left: 0;
+}
+
+.datepicker table tr td.today,
+span.focused {
+	border-radius: 50% !important;
+	background-image: linear-gradient(#FFF3E0, #FFE0B2);
+}
+
+.datepicker table tr td.today.range {
+	background-image: linear-gradient(#eeeeee, #eeeeee) !important;
+	border-radius: 0 !important;
+}
+
+thead tr:nth-child(3) th {
+	font-weight: bold !important;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.dow,
+.old-day,
+.day,
+.new-day {
+	width: 40px !important;
+	height: 40px !important;
+	border-radius: 0px !important;
+}
+
+.old-day:hover,
+.day:hover,
+.new-day:hover,
+.month:hover,
+.year:hover,
+.decade:hover,
+.century:hover {
+	border-radius: 50% !important;
+	background-color: #eee;
+}
+
+.datepicker .active {
+	border-radius: 50% !important;
+	background-image: linear-gradient(#90CAF9, #64B5F6) !important;
+	color: #fff !important;
+}
+
+.range-start,
+.range-end {
+	border-radius: 50% !important;
+	background-image: linear-gradient(#FFA726, #FFA726) !important;
+}
+
+.prev,
+.next,
+.datepicker-switch {
+	border-radius: 0 !important;
+	padding: 10px 10px 10px 10px !important;
+	text-transform: uppercase;
+	font-size: 14px;
+	opacity: 0.8;
+}
+
+.prev:hover,
+.next:hover,
+.datepicker-switch:hover {
+	background-color: inherit !important;
+	opacity: 1;
+}
+
+.btn-black {
+	background-color: #37474F !important;
+	color: #fff !important;
+	width: 100%;
+}
+
+.btn-black:hover {
+	color: #fff !important;
+	background-color: #000 !important;
+}

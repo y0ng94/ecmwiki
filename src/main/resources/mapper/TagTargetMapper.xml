@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecmwiki.mapper.TagTargetMapper">
+    <insert id="insertTagTarget" parameterType="TagTargetVO">
+        insert into ew_tag_target (target_idx, tag_name, tag_master_group, tag_group, color_code)
+        values (#{targetIdx}, #{tagName}, #{tagMasterGroup}, #{tagGroup}, #{colorCode})
+        on duplicate key update tag_name = #{tagName}
+    </insert>
+
+    <select id="selectTagTarget" parameterType="int" resultType="TagTargetVO">
+        select target_idx, tag_name, tag_master_group, tag_group, color_code
+        from ew_tag_target
+        where target_idx = #{targetIdx}
+    </select>
+
+    <delete id="deleteTagTarget" parameterType="int">
+        delete from ew_tag_target
+        where target_idx = #{targetIdx}
+    </delete>
+</mapper>

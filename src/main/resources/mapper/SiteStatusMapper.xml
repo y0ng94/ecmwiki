@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecmwiki.mapper.SiteStatusMapper">
+	<resultMap id="joinedSiteStatusVO" type="SiteStatusVO">
+		<id property="siteIdx" column="site_idx"/>
+		<id property="siteTitle" column="site_title"/>
+		<id property="siteData" column="site_data"/>
+		<id property="fileKey" column="file_key"/>
+		<id property="userId" column="user_id"/>
+		<id property="userName" column="user_name"/>
+		<id property="registDate" column="regist_date"/>
+
+		<collection property="tagList" column="{site_idx = target_idx}" ofType="TagTargetVO">
+			<id property="tagName" column="tag_name"/>
+			<id property="tagMasterGroup" column="tag_master_group"/>
+			<id property="tagGroup" column="tag_group"/>
+			<id property="colorCode" column="color_code"/>
+		</collection>
+	</resultMap>
+
+	<select id="selectSiteStatus" parameterType="SiteStatusVO" resultMap="joinedSiteStatusVO">
+		select site_idx, site_title, site_data, file_key, user_id, user_name, TO_CHAR(regist_date, 'YYYY-MM-DD HH24:MI:SS') as regist_date,
+				tag_name, tag_master_group, tag_group, color_code
+		from ew_site_status ess left outer join ew_tag_target ett on ess.site_idx = ett.target_idx and tag_master_group = 'news' and tag_group = 'siteStatus'
+		where 1=1
+		<if test="siteIdx != null and siteIdx != 0">
+			and site_idx = #{siteIdx}
+		</if>
+		order by regist_date desc
+	</select>
+
+	<insert id="insertSiteStatus" parameterType="SiteStatusVO" useGeneratedKeys="true" keyProperty="siteIdx">
+		insert into ew_site_status (site_title, site_data, file_key, user_id, user_name)
+		values (#{siteTitle}, #{siteData}, #{fileKey}, #{userId}, #{userName})
+	</insert>
+
+	<insert id="updateSiteStatus" parameterType="SiteStatusVO">
+		update ew_site_status
+		<trim prefixOverrides=", " prefix="set">
+			<if test="siteTitle != null and !siteTitle.equals('')">
+				, site_title = #{siteTitle}
+			</if>
+			<if test="siteData != null and !siteData.equals('')">
+				, site_data = #{siteData}
+			</if>
+			<if test="fileKey != null and !fileKey.equals('')">
+				, file_key = #{fileKey}
+			</if>
+			<if test="userId != null and !userId.equals('')">
+				, user_id = #{userId}
+			</if>
+			<if test="userName != null and !userName.equals('')">
+				, user_name = #{userName}
+			</if>
+		</trim>
+		where site_idx = #{siteIdx}
+	</insert>
+
+	<delete id="deleteSiteStatus" parameterType="SiteStatusVO">
+		delete from ew_site_status
+		where site_idx = #{siteIdx}
+	</delete>
+</mapper>

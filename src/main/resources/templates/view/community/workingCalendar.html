@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout-userlist}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<div layout:fragment="content">
+	<link href="/css/workingCalendar/workingCalendar.css" rel="stylesheet" type="text/css">
+
+<div class="container-fluid">
+    <div class="row example-split">
+		<div style="overflow-y:scroll; width:50%; height:570px; margin-top:50px;">
+			<ul class="timeline timeline-split">
+				<li class="timeline-item period">
+                    <div class="timeline-info"></div>
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h2 class="timeline-title">2022년.</h2>
+                    </div>
+                </li>
+                <li class="timeline-item">
+                	<div class="timeline-info">
+                        <span>2022, 01</span>
+                    </div>
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title"># 분리보관패키지</h3>
+                        <p>분리보관 패키지 설계</p>
+                        <p>상세내용~~~~~~~~~~~~~~~~~~ blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah</p>
+                    </div>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-info">
+                        <span>2022, 06</span>
+                    </div>
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title"># 삼성화재</h3>
+                        <p>ECM 4중화 및 고도화</p>
+                        <p>상세내용~~~~~~~~~~~~~~~~~~ blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah</p>
+                    </div>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-info">
+                        <span>2022, 08</span>
+                    </div>
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title"># 삼성화재</h3>
+                        <p>이미지 시스템 개선 프로젝트 </p>
+                        <p>상세내용~~~~~~~~~~~~~~~~~~ blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah</p>
+                    </div>
+                </li>
+                <li class="timeline-item period">
+                    <div class="timeline-info"></div>
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h2 class="timeline-title">HappyNewYear 2023년!!</h2>
+                    </div>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-info">
+                        <span>2023, 01</span>
+                    </div>
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">ECM Wiki</h3>
+                        <p>
+							#내부 (ECM Wiki) <br>
+							- Front End 화면 설계 <br>
+							- Front End 화면 개발
+						</p>
+                    </div>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-info">
+                        <span>2023, 02</span>
+                    </div>
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">분리보관 패키지</h3>
+                        <p>
+							#웰컴저축은행 <br>
+							- 분리보관 패키지 회의 <br>
+							<br>
+							#ECM Wiki <br>
+							- FrontEnd 화면 설계 및 개발
+						</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <div style="width:50%; height:200px; float:right; margin-top:70px;">
+			<div class="timeline-title">
+            	<h3 class="timeline-title"># 삼성화재</h3>
+            	<p>이미지시스템개선 프로젝트 (2022, 01 ~ 2022, 05)</p>
+            </div>
+            
+			<div class="mb-3">
+			  	<textarea class="form-control" id="detail" rows="20"></textarea>
+			</div>
+			
+			<button type="button" class="btn btn-light" style="width:100px; height:40px; font-weight:bold; float:right;">변경</button>
+			<button type="button" class="btn btn-light" style="width:100px; height:40px; font-weight:bold; float:right; margin-right:10px;">생성</button>
+		</div>
+   
+        
+    </div>
+</div>
+	
+</div>
+
+</html>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecmwiki.mapper.BoardMapper">
+	<select id="selectBoard" parameterType="BoardVO" resultType="BoardVO">
+		select board_idx, board_title, board_temporary, user_id, user_name, menu_id, regist_date, update_date, board_hits, board_likes, board_comment_count,
+		       (select tag_name from ew_tag_target where target_idx = eb.board_idx and tag_master_group = 'status') as status,
+		       (select color_code from ew_tag_target where target_idx = eb.board_idx and tag_master_group = 'status') as color_code
+		from
+		(
+			select board_idx, board_title, board_temporary, user_id, user_name, menu_id, TO_CHAR(regist_date, 'YYYY-MM-DD HH24:MI:SS') as regist_date, TO_CHAR(update_date, 'YYYY-MM-DD HH24:MI:SS') as update_date, board_hits, board_likes, board_comment_count
+			from ew_board
+			where 1=1
+			<if test='userId != null and !userId.equals("")'>
+				and user_id = #{userId}
+			</if>
+			<if test='menuId != null and !menuId.equals("")'>
+				and menu_id = #{menuId}
+			</if>
+			<if test='boardTemporary != null and !boardTemporary.equals("")'>
+				and board_temporary = #{boardTemporary}
+			</if>
+		) eb
+		order by regist_date desc
+	</select>
+
+	<select id="selectBoardDetails" parameterType="int" resultType="BoardVO">
+		select board_idx, board_title, board_content, board_temporary, user_id, user_name, menu_id, TO_CHAR(regist_date, 'YYYY-MM-DD HH24:MI:SS') as regist_date, TO_CHAR(update_date, 'YYYY-MM-DD HH24:MI:SS') as update_date, board_hits, board_likes, board_comment_count
+		from ew_board
+		where board_idx = #{boardIdx}
+	</select>
+
+	<insert id="insertBoard" parameterType="BoardVO" useGeneratedKeys="true" keyProperty="boardIdx">
+		insert into ew_board (board_title, board_content, board_temporary, user_id, user_name, menu_id)
+		values (#{boardTitle}, #{boardContent}, #{boardTemporary}, #{userId}, #{userName}, #{menuId})
+	</insert>
+
+	<update id="updateBoard" parameterType="BoardVO">
+		update ew_board
+		<set>
+			<if test='boardTitle != null and !boardTitle.equals("")'>
+				board_title = #{boardTitle},
+			</if>
+			<if test='boardContent != null and !boardContent.equals("")'>
+				board_content = #{boardContent},
+			</if>
+		</set>
+		where board_idx = #{boardIdx}
+	</update>
+
+	<update id="updateBoardHits" parameterType="int">
+		update ew_board
+		set board_hits = board_hits + 1
+		where board_idx = #{boardIdx}
+	</update>
+
+	<update id="updateBoardLikesIncrease" parameterType="int">
+		update ew_board
+		set board_likes = board_likes + 1
+		where board_idx = #{boardIdx}
+	</update>
+
+	<update id="updateBoardLikesDecrease" parameterType="int">
+		update ew_board
+		set board_likes = board_likes - 1
+		where board_idx = #{boardIdx}
+	</update>
+
+	<update id="updateBoardCommentCountIncrease" parameterType="int">
+		update ew_board
+		set board_comment_count = board_comment_count + 1
+		where board_idx = #{boardIdx}
+	</update>
+
+	<update id="updateBoardCommentCountDecrease" parameterType="int">
+		update ew_board
+		set board_comment_count = board_comment_count - 1
+		where board_idx = #{boardIdx}
+	</update>
+
+	<delete id="deleteBoard" parameterType="int">
+		delete from ew_board
+		where board_idx = #{boardIdx}
+	</delete>
+</mapper>

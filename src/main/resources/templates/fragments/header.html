@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lagn="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="headerFragment">
+
+	<link href="/css/fragments/header.css" type="text/css" rel="stylesheet" id="style-header">
+	<script src="/js/fragments/header.js" crossorigin="anonymous"></script>
+
+	<section class="topbar d-flex align-items-center py-2">
+		<div class="container d-flex justify-content-between">
+			<div class="topbar-left d-flex justify-content-start align-items-center">
+				<div class="search-container">
+					<input type="text" class="input" id="total-search" placeholder="통합검색">
+					<div class="close-btn">&times;</div>
+				</div>
+				<div class="rounded-circle" id="total-search-toggle">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+						<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+					</svg>
+				</div>
+				<div class="rounded-circle ms-2" id="total-menu-toggle">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+						<path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+					</svg>
+				</div>
+			</div>
+
+			<div class="topbar-center fw-bolder fs-5 d-flex justify-content-center align-items-center"><a href="/">ECMWiki</a></div>
+
+			<div class="topbar-right d-flex justify-content-end align-items-center">
+				<div class="avatar avatar-xl" id="user-info-toggle">
+					<img class="rounded-circle user-top-picture user-profile" src="/img/nopicture.png" alt="" role="button">
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<header id="header" class="header d-flex align-items-center justify-content-center">
+		<div class="navbar" id="menu"></div>
+	</header>
+
+	<div id="banner">
+		<img class="banner-img" src="/img/banner.jpg" alt="">
+		<strong>비정형 콘텐츠를 데이터화하다.<br>INZENT ECM</strong>
+	</div>
+
+	<div class="wrap-loading d-none">
+		<div><img src="/img/loading.gif"  style="width:50px" /></div>
+	</div>
+
+</th:block>
+
+</html>

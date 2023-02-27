@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern> %d{HH:mm:ss.SSS} %highlight(%-5level) %magenta(%-4relative) --- [ %thread{10} ] %cyan(%logger{40}) : %msg%n </pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.ecmwiki" level="debug" />
+    <logger name="org.springframework" level="warn" />
+
+    <logger name="jdbc.connection" level="warn"/>
+    <logger name="jdbc.resultsettable" level="info"/>
+    <logger name="jdbc.audit" level="warn"/>
+    <logger name="jdbc.sqltiming" level="warn"/>
+    <logger name="jdbc.resultset" level="warn"/>
+
+    <logger name="com.zaxxer.hikari" level="warn"/>
+
+    <logger name="org.thymeleaf" level="warn"/>
+
+    <root level="info">
+        <appender-ref ref="console" />
+    </root>
+
+</configuration>

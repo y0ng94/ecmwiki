@@ -1,0 +1,84 @@
+.user-picture {
+	width: 40%;
+	border: 0.5px solid #BDBDBD;
+}
+
+#user-name {
+	color: #000000;
+	font-weight: bold;
+}
+
+#last-access-date {
+	display: flex;
+	justify-content: center;
+	color: #BDBDBD;
+	font-size: 13px;
+}
+
+#personal-menu {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-gap: 12px;
+	gap: 12px;
+}
+
+#personal-menu a {
+	font-size: 14px;
+	text-decoration: none;
+	color: #000000;
+	font-weight: 500;
+}
+
+#personal-menu a:hover {
+	color: #FFC42C;
+}
+
+#login, #logout {
+	width: 100%;
+	border: 1px solid #000000;
+	border-radius: 0px;
+	background: #000000;
+    color: #FFFFFF;
+    font-weight: bold;
+	font-size: 14px;
+	padding: 7px 15px;
+}
+
+#login:hover, #logout:hover {
+	color: #FFC42C;
+}
+
+#login-wrapper {
+	text-align: center;
+}
+
+#login-wrapper img {
+	width: 150px;
+}
+
+#bookmark {
+	width: 100%;
+	margin-top: 20px;
+	border-left: none;
+	border-right: none;
+	border-radius: 0px;
+}
+
+#bookmark .card-body {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-gap: 12px;
+	gap: 12px;
+}
+
+#bookmark .card-body a {
+	font-size: 14px;
+	text-decoration: none;
+	color: #000000;
+	font-weight: 700;
+	text-align: center;
+}
+
+#bookmark .card-body a:hover {
+	color: #FFC42C;
+}

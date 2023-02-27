@@ -1,0 +1,101 @@
+ul {
+    list-style: none;
+}
+
+ul,
+li {
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.label {
+    margin-bottom: 5px;
+    padding: 0;
+    font-size: .75rem;
+    font-weight: 500;
+}
+
+.select-box-area {
+    position: relative;
+}
+
+.select-box {
+    cursor: pointer;
+    border: 1px solid #ced4da;
+    width: 100%;
+    position: relative;
+    height: 30px;
+    align-content: center;
+    align-items: center;
+}
+
+.select-box::after {
+    content: "\f107";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 10px;
+}
+
+.select-box.open::after {
+    content: "\f00d";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 10px;
+}
+
+.select-box-dropDown {
+    background-color: #fff;
+    box-shadow: 0 0 2px 0 var(--rcx-color-neutral-800-8, rgba(47, 52, 61, .08)), 0 0 12px 0 var(--rcx-color-neutral-800-12, rgba(47, 52, 61, .12));
+    display: none;
+    position: absolute;
+    width: 100%;
+    max-height: 10rem;
+    z-index: 9999;
+    overflow-y: scroll;
+}
+
+.select-box-dropDown li::last-child {
+    padding-bottom: 0;
+}
+
+.select-box-dropDown li a {
+    color: #333;
+    display: block;
+    padding: 4px 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.select-box-dropDown li a:hover {
+    background: #f7f8fa;
+}
+
+.select-box-dropDown li a:focus,
+.select-box-dropDown li a.selected {
+    background: #cbced1;
+}
+
+#tag-area {
+    background-color: #cfe2ff59;
+    padding: 1rem;
+    outline: 2px dashed #2c0b0e;
+    outline-offset: -10px;
+    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+    transition: outline-offset .15s ease-in-out, background-color .15s linear;
+}
+
+#file-list {
+    background-color: #c8eef859;
+    padding: 1rem;
+    outline: 2px dashed #92b0b3;
+    outline-offset: -10px;
+    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+    transition: outline-offset .15s ease-in-out, background-color .15s linear;
+}

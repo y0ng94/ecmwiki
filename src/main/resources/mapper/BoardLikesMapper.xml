@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecmwiki.mapper.BoardLikesMapper">
+    <select id="selectBoardLikes" parameterType="BoardLikesVO" resultType="int">
+        select count(1)
+        from ew_board_likes
+        where board_idx = #{boardIdx}
+        and user_id = #{userId}
+    </select>
+
+    <insert id="insertBoardLikes" parameterType="BoardLikesVO">
+        insert into ew_board_likes (board_idx, user_id)
+        values (#{boardIdx}, #{userId})
+    </insert>
+
+    <delete id="deleteBoardLikes" parameterType="BoardLikesVO">
+        delete from ew_board_likes
+        where board_idx = #{boardIdx}
+        and user_id = #{userId}
+    </delete>
+</mapper>

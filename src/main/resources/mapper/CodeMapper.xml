@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecmwiki.mapper.CodeMapper">
+	<insert id="insertCodeList" parameterType="CodeVO">
+		insert into ew_code (code_id, code_name, code_group, description)
+		values 
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.codeId}, #{item.codeName}, #{item.codeGroup}, #{item.description})
+		</foreach>
+		on duplicate key
+			update code_id = values(codeId),
+					code_name = values(codeName),
+					code_group = values(codeGroup),
+					description = values(description)
+	</insert>
+
+	<delete id="deleteCodeList" parameterType="MenuVO">
+		delete from ew_code
+		where
+		<foreach collection="list" item="item" index="index" separator=" or ">
+			code_id = #{item.codeId}
+		</foreach>
+	</delete>
+</mapper>

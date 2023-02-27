@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecmwiki.mapper.BoardCommentMapper">
+    <select id="selectBoardComment" parameterType="int" resultType="BoardCommentVO">
+        select eb.*, (select user_name from ew_board_comment where comment_idx = eb.target_idx) as target_user_name
+        from
+        (
+            select comment_idx, board_idx, target_idx, comment_content, user_id, user_name, TO_CHAR(regist_date, 'YYYY-MM-DD HH24:MI:SS') as regist_date, TO_CHAR(update_date, 'YYYY-MM-DD HH24:MI:SS') as update_date
+              from ew_board_comment
+              where board_idx = #{boardIdx}
+        ) eb
+    </select>
+
+    <insert id="insertBoardComment" parameterType="BoardCommentVO">
+        insert into ew_board_comment (board_idx, target_idx, comment_content, user_id, user_name)
+        values (#{boardIdx}, #{targetIdx}, #{commentContent}, #{userId}, #{userName})
+    </insert>
+
+    <update id="updateBoardComment" parameterType="BoardCommentVO">
+        update ew_board_comment
+        set comment_content = #{commentContent}, update_date = date_format(sysdate(),'%Y%m%d%H%i%s')
+        where comment_idx = #{commentIdx}
+    </update>
+
+    <delete id="deleteBoardComment" parameterType="int">
+        delete from ew_board_comment
+        where comment_idx = #{commentIdx}
+    </delete>
+
+    <delete id="deleteBoardCommentByBoardIdx" parameterType="int">
+        delete from ew_board_comment
+        where board_idx = #{boardIdx}
+    </delete>
+</mapper>

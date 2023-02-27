@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ecmwiki.mapper.UserMapper" >
+
+    <select id="selectUserById" parameterType="string" resultType="UserVO">
+        SELECT
+            user_id,
+            user_pw ,
+            user_name ,
+            user_picture ,
+            phone_number,
+            company,
+            regist_date,
+            update_date,
+            to_char(last_access_date, 'YYYY/MM/DD HH24:MI:SS') as lastAccessDate,
+            login_try_count,
+            authority
+        FROM
+            ew_user
+        WHERE
+            user_id = #{userId}
+        AND
+            delete_yn = 'n'
+    </select>
+
+    <select id="selectUserName" parameterType="string" resultType="string">
+        SELECT
+            user_name
+        FROM
+            ew_user
+        WHERE
+            user_id = #{userId}
+    </select>
+
+    <select id="selectUserNotApproval" resultType="UserVO">
+        SELECT
+            user_id,
+            user_pw,
+            user_name,
+            user_picture ,
+            phone_number,
+            company,
+            regist_date,
+            update_date,
+            last_access_date,
+            login_try_count,
+            authority
+        FROM
+            ew_user
+        WHERE
+            approval_yn = 'n'
+          AND
+            delete_yn = 'n'
+    </select>
+
+    <insert id="insertUser" parameterType="UserVO">
+        INSERT INTO ew_user (user_id, user_pw, user_name, user_picture, phone_number, company, authority)
+        VALUES(#{userId}, #{userPw}, #{userName}, #{userPicture}, #{phoneNumber}, #{company}, #{authority})
+    </insert>
+
+    <update id="updateLastAccessDate" parameterType="string">
+        UPDATE
+            ew_user
+        SET
+            last_access_date = date_format(sysdate(), '%Y%m%d%H%i%s')
+        WHERE
+            user_id = #{userId}
+    </update>
+
+    <update id="increaseLoginTryCount" parameterType="string">
+        UPDATE
+            ew_user
+        SET
+            login_try_count = login_try_count + 1
+        WHERE
+            user_id = #{userId}
+    </update>
+
+    <update id="resetLoginTryCount" parameterType="string">
+        UPDATE
+            ew_user
+        SET
+            login_try_count = 0
+        WHERE
+            user_id = #{userId}
+    </update>
+
+</mapper>

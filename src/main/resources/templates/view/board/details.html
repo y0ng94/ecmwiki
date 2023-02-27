@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<div layout:fragment="content">
+
+    <link href="/vendors/summernote/summernote-lite.min.css" rel="stylesheet" type="text/css">
+    <script crossorigin="anonymous" src="/vendors/summernote/summernote-lite.min.js"></script>
+    <script crossorigin="anonymous" src="/vendors/summernote/lang/summernote-ko-KR.min.js"></script>
+
+    <script crossorigin="anonymous" src="/js/board/details.js" th:inline="javascript"></script>
+
+    <script>
+        const menuId = "[[${menu.menuId}]]";
+        const boardIdx = "[[${boardDetails.boardIdx}]]";
+        let isLiked = "[[${isLiked}]]";
+    </script>
+
+    <div class="border-bottom mb-2 pb-2">
+        <h3 class="fw-bold fs-2" th:text="${menu.menuName}"></h3>
+    </div>
+
+    <div class="border-bottom mb-2 pt-2 pb-1">
+        <div class="row row justify-content-start align-items-center">
+            <div class="col col-auto">
+                <h4 class="text-bold" th:text="${boardDetails.boardTitle}"></h4>
+                <div class="dropdown d-inline-flex" sec:authorize="isAuthenticated()">
+                    <a class="btn btn-sm" data-bs-toggle="dropdown">
+                        <i class="fa-solid fa-user me-1"></i>
+                        <span th:text="${boardDetails.userName}"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" type="button" th:href="@{/view/posts/{userId}(userId = ${boardDetails.userId})}" id="view-posts">작성글 보기</a></li>
+                    </ul>
+                </div>
+                <i class="fa-solid fa-eye me-1"></i><span class="me-2" th:text="${boardDetails.boardHits}"></span>
+                <i class="fa-regular fa-thumbs-up me-1"></i><span class="me-2" th:text="${boardDetails.boardLikes}"></span>
+                <i class="fa-solid fa-calendar-days me-1"></i> <span class="me-0" th:text="${boardDetails.updateDate}"></span>
+                <div class="dropdown d-inline-flex" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.userId} == ${boardDetails.userId} or ${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <a class="btn btn-sm" data-bs-toggle="dropdown">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" type="button" id="update-board">게시글 수정</a></li>
+                        <li><a class="dropdown-item" href="#" type="button" id="delete-board">게시글 삭제</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <form class="row mb-6" id="detail-form" onsubmit="return false">
+                <div class="col-12 col-sm-12 mb-3 pb-3">
+                    <div class="p-1" th:utext="${boardDetails.boardContent}"></div>
+                </div>
+
+                <div class="col-12 col-sm-12 mb-3">
+                    <div class="d-flex justify-content-center align-items-center border-bottom pb-3">
+                        <button class="btn btn-dark mx-1" type="button" id="likes" sec:authorize="isAuthenticated()"><i class="fa-regular fa-thumbs-up"></i> 좋아요</button>
+                        <button class="btn btn-dark mx-1" type="button" id="copy-clipboard"><i class="fa-solid fa-link"></i> 주소 복사</button>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-12 mb-3">
+                    <div class="mb-3" id="tag-area">
+                        <span class="badge bg-dark me-1" th:each="tag : ${tagList}" th:if="${tag.tagMasterGroup != 'status'}" th:style="${'background-color: #' + tag.colorCode + ' !important'}" th:text="'#' + ${tag.tagName}"></span>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-12 mb-3">
+                    <div class="d-none" id="file-list-area">
+                        <label class="form-label" for="file-list"><i class="fa-regular fa-file"></i> 첨부파일 리스트</label>
+                        <div class="border border-2 p-2" id="file-list"></div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-12 mb-3">
+                    <div id="comment-editor"></div>
+
+<!--                    <div id="comment-area">-->
+<!--                        <label class="form-label" for="comment-input"><i class="fa-regular fa-comment-dots"></i> 댓글 작성</label>-->
+<!--                        <div class="input-group mb-3">-->
+<!--                            <input class="form-control" id="comment-input" placeholder="#댓글을 입력해주세요" type="text">-->
+<!--                            <button class="btn btn-outline-secondary" type="button" id="comment-insert">댓글 등록</button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </div>
+
+                <div class="col-12 col-sm-12 mb-3">
+                    <div id="comment-list">
+                        <ul class="list-group list-group-flush border-top border-bottom" id="comment-list-ul"></ul>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+
+    </div>
+</div>
+</html>

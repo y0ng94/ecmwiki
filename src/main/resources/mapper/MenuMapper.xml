@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecmwiki.mapper.MenuMapper">
+	<select id="selectAllMenuList" resultType="MenuVO">
+		select menu_id, menu_name, menu_order, target_menu, (select menu_name from ew_menu parent_menu where parent_menu.menu_id = chiled_menu.target_menu) as target_menu_name, link_url, regist_date,
+			(
+				case
+					when menu_id = 'siteStatus' then (select max(site.regist_date) from ew_site_status site)
+					else (select max(board.regist_date) from ew_board board where board.menu_id = chiled_menu.menu_id)
+				end
+			) as "board_regist_date"
+		from ew_menu chiled_menu
+	</select>
+
+	<select id="selectMenu" parameterType="string" resultType="MenuVO">
+		select menu_id, menu_name, menu_order, target_menu, (select menu_name from ew_menu parent_menu where parent_menu.menu_id = chiled_menu.target_menu) as target_menu_name, link_url, regist_date
+		from ew_menu chiled_menu
+		where menu_id = #{menuId}
+	</select>
+
+	<select id="selectChildMenuList" parameterType="MenuVO" resultType="MenuVO">
+		select menu_id
+		from ew_menu
+		where
+		<foreach collection="list" item="item" index="index" separator=" or ">
+			target_menu = #{item.menuId}
+		</foreach>
+	</select>
+
+	<insert id="insertMenuList" parameterType="MenuVO">
+		insert into ew_menu (menu_id, menu_name, menu_order, target_menu, link_url)
+		values 
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.menuId}, #{item.menuName}, #{item.menuOrder}, #{item.targetMenu}, #{item.linkUrl})
+		</foreach>
+		on duplicate key
+			update menu_id = values(menuId),
+					menu_name = values(menuName),
+					menu_order = values(menuOrder),
+					target_menu = values(targetMenu),
+					link_url = values(linkUrl)
+	</insert>
+
+	<delete id="deleteMenuList" parameterType="MenuVO">
+		delete from ew_menu
+		where
+		<foreach collection="list" item="item" index="index" separator=" or ">
+			menu_id = #{item.menuId}
+		</foreach>
+	</delete>
+</mapper>
